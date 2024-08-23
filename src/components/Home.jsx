@@ -11,13 +11,13 @@ export default function Home({ setFile, setAudioStream }) {
         <span className='text-blue-400'>&rarr;</span> Translate
       </h3>
       <div className='flex flex-row items-center space-x-2 justify-center font-semibold mt-4'>
-        <button className='flex items-center justify-between gap-3'>
+        <button className='p-1.5 flex items-center justify-between gap-3 hover:bg-slate-50 duration-200 hover:rounded-lg'>
           <p className='hover:text-blue-600 duration-200'>Record</p>
           <i className='fa-solid fa-microphone text-blue-400'></i>
         </button>
         <p className='mr-auto font-black'>|</p>
         <p className='text-base gap-3'>
-          <label className='cursor-pointer hover:text-blue-600 duration-200'>
+          <label className='p-1.5 cursor-pointer hover:text-blue-600 duration-200 hover:bg-slate-50 hover:rounded-lg'>
             Upload{" "}
             <input
               onChange={(e) => {
