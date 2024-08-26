@@ -2,7 +2,7 @@ import React from "react";
 
 export default function FileDisplay({ handleAudioReset, file, audioStream }) {
   return (
-    <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 md:gap-5 justify-center items-center text-center pb-20 w-fit max-w-full mx-auto'>
+    <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 justify-center text-center text-center pb-20 w-72 sm:w-96 max-w-full mx-auto'>
       <h1 className='font-semibold text-4xl sm:text-5xl md:text-6xl'>
         File Uploaded <span className='text-blue-400 bold'>Successfully!</span>
       </h1>
