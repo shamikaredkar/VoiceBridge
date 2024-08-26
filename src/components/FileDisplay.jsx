@@ -8,7 +8,7 @@ export default function FileDisplay({ handleAudioReset, file, audioStream }) {
       </h1>
       <div className='flex flex-col text-left my-4'>
         <h3 className='font-semibold'>Name:</h3>
-        <p>{file.name}</p>
+        <p>{file ? file?.name : "Custom Audio"}</p>
       </div>
       <div className='flex items-center justify-between gap-4'>
         <button

@@ -1,7 +1,7 @@
-import { React, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function Home({ setFile, setAudioStream }) {
-  const [recordingStatus, setRecordingStatus] = useState("inactive"); // Ensure correct initial state
+  const [recordingStatus, setRecordingStatus] = useState("inactive");
   const [audioChunks, setAudioChunks] = useState([]);
   const [duration, setDuration] = useState(0);
   const mediaRecorder = useRef(null);
@@ -23,22 +23,24 @@ export default function Home({ setFile, setAudioStream }) {
     }
     setRecordingStatus("recording");
 
-    //create new Media recorder instance using the stream
-    const media = new MediaRecorder(tempStream, { type: mimeType });
+    // Create a new MediaRecorder instance using the stream
+    const media = new MediaRecorder(tempStream, { mimeType: mimeType });
     mediaRecorder.current = media;
 
     mediaRecorder.current.start();
     let localAudioChunks = [];
     mediaRecorder.current.ondataavailable = (event) => {
-      if (typeof event.data === "undefined") {
-        return;
+      if (event.data.size > 0) {
+        localAudioChunks.push(event.data);
       }
-      if (event.data.size === 0) {
-        return;
-      }
-      localAudioChunks.push(event.data);
     };
-    setAudioChunks(localAudioChunks);
+
+    mediaRecorder.current.onstop = () => {
+      const audioBlob = new Blob(localAudioChunks, { type: mimeType });
+      setAudioStream(audioBlob);
+      setAudioChunks([]);
+      setDuration(0);
+    };
   }
 
   async function stopRecording() {
@@ -46,12 +48,6 @@ export default function Home({ setFile, setAudioStream }) {
     console.log("Stop recording");
 
     mediaRecorder.current.stop();
-    mediaRecorder.current.onstop = () => {
-      const audioBlob = new Blob(audioChunks, { type: mimeType });
-      setAudioStream(audioBlob);
-      setAudioChunks([]);
-      setDuration(0);
-    };
   }
 
   useEffect(() => {
@@ -64,7 +60,7 @@ export default function Home({ setFile, setAudioStream }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  });
+  }, [recordingStatus]);
 
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 md:gap-5 justify-center text-center pb-20'>

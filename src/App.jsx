@@ -2,7 +2,7 @@ import FileDisplay from "./components/FileDisplay";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import { React, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -22,7 +22,7 @@ function App() {
           {isAudioAvailable ? (
             <FileDisplay
               file={file}
-              audioStream={setAudioStream}
+              audioStream={audioStream}
               handleAudioReset={handleAudioReset}
             />
           ) : (
@@ -31,7 +31,6 @@ function App() {
         </section>
         <Footer />
       </div>
-      ;
     </>
   );
 }
