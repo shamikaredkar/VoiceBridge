@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useRef } from "react";
 
 export default function Home({ setFile, setAudioStream }) {
-  const [recordingStatus, setRecordingStatus] = useState("Inactive");
+  const [recordingStatus, setRecordingStatus] = useState("inactive"); // Ensure correct initial state
   const [audioChunks, setAudioChunks] = useState([]);
   const [duration, setDuration] = useState(0);
   const mediaRecorder = useRef(null);
@@ -9,19 +9,21 @@ export default function Home({ setFile, setAudioStream }) {
 
   async function startRecording() {
     let tempStream;
-    console.log("Start Recording");
+    console.log("Start recording");
+
     try {
-      const streamData = navigator.mediaDevices.getUserMedia({
+      const streamData = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: false,
       });
       tempStream = streamData;
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       return;
     }
     setRecordingStatus("recording");
 
+    //create new Media recorder instance using the stream
     const media = new MediaRecorder(tempStream, { type: mimeType });
     mediaRecorder.current = media;
 
@@ -41,7 +43,8 @@ export default function Home({ setFile, setAudioStream }) {
 
   async function stopRecording() {
     setRecordingStatus("inactive");
-    console.log(startRecording);
+    console.log("Stop recording");
+
     mediaRecorder.current.stop();
     mediaRecorder.current.onstop = () => {
       const audioBlob = new Blob(audioChunks, { type: mimeType });
@@ -55,9 +58,11 @@ export default function Home({ setFile, setAudioStream }) {
     if (recordingStatus === "inactive") {
       return;
     }
+
     const interval = setInterval(() => {
-      setDuration((current) => current + 1);
+      setDuration((curr) => curr + 1);
     }, 1000);
+
     return () => clearInterval(interval);
   });
 
@@ -81,11 +86,11 @@ export default function Home({ setFile, setAudioStream }) {
             {recordingStatus === "inactive" ? "Record" : "Stop Recording"}
           </p>
           <div className='flex items-center gap-2'>
-            {duration && <p className='text-sm '>{duration}s</p>}
+            {duration > 0 && <p className='text-sm '>{duration}s</p>}
             <i
               className={
                 "fa-solid fa-microphone text-blue-400 duration-200" +
-                (recordingStatus === "recording" ? "text-rose-300" : "")
+                (recordingStatus === "recording" ? " text-rose-300" : "")
               }
             ></i>
           </div>
