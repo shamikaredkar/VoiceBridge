@@ -9,7 +9,7 @@ export default function Home({ setFile, setAudioStream }) {
 
   async function startRecording() {
     let tempStream;
-    console.loh("Start Recording");
+    console.log("Start Recording");
     try {
       const streamData = navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -20,6 +20,7 @@ export default function Home({ setFile, setAudioStream }) {
       console.log(err);
       return;
     }
+    setRecordingStatus("recording");
 
     const media = new MediaRecorder(tempStream, { type: mimeType });
     mediaRecorder.current = media;
@@ -38,6 +39,28 @@ export default function Home({ setFile, setAudioStream }) {
     setAudioChunks(localAudioChunks);
   }
 
+  async function stopRecording() {
+    setRecordingStatus("inactive");
+    console.log(startRecording);
+    mediaRecorder.current.stop();
+    mediaRecorder.current.onstop = () => {
+      const audioBlob = new Blob(audioChunks, { type: mimeType });
+      setAudioStream(audioBlob);
+      setAudioChunks([]);
+      setDuration(0);
+    };
+  }
+
+  useEffect(() => {
+    if (recordingStatus === "inactive") {
+      return;
+    }
+    const interval = setInterval(() => {
+      setDuration((current) => current + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  });
+
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 md:gap-5 justify-center text-center pb-20'>
       <h1 className='font-semibold text-5xl sm:text-6xl md:text-7xl'>
@@ -48,9 +71,24 @@ export default function Home({ setFile, setAudioStream }) {
         <span className='text-blue-400'>&rarr;</span> Translate
       </h3>
       <div className='flex flex-row items-center space-x-2 justify-center font-semibold mt-4'>
-        <button className='p-1.5 flex items-center justify-between gap-3 hover:bg-slate-50 duration-200 hover:rounded-lg'>
-          <p className='hover:text-blue-600 duration-200'>Record</p>
-          <i className='fa-solid fa-microphone text-blue-400'></i>
+        <button
+          onClick={
+            recordingStatus === "recording" ? stopRecording : startRecording
+          }
+          className='p-1.5 flex items-center justify-between gap-3 hover:bg-slate-50 duration-200 hover:rounded-lg'
+        >
+          <p className='hover:text-blue-600 duration-200'>
+            {recordingStatus === "inactive" ? "Record" : "Stop Recording"}
+          </p>
+          <div className='flex items-center gap-2'>
+            {duration && <p className='text-sm '>{duration}s</p>}
+            <i
+              className={
+                "fa-solid fa-microphone text-blue-400 duration-200" +
+                (recordingStatus === "recording" ? "text-rose-300" : "")
+              }
+            ></i>
+          </div>
         </button>
         <p className='mr-auto font-black'>|</p>
         <p className='text-base gap-3'>
