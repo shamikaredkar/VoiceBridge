@@ -40,14 +40,19 @@ export default function Info(props) {
       worker.current.removeEventListener("message", onMessageReceived);
   }, []);
 
+  const textElement =
+    tab === "transcription"
+      ? output.map((val) => val.text)
+      : translation || "No translation";
+
   function handleCopy() {
-    navigator.clipboard.writeText();
+    navigator.clipboard.writeText(textElement);
   }
   function handleDownload() {
     const element = document.createElement("a");
-    const file = new Blob([], { type: "text/plain" });
+    const file = new Blob([textElement], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
-    element.download(`VoiceBridge_${new Date().toDateString()}.txt`);
+    element.download = `VoiceBridge_${new Date().toString()}.txt`;
     document.body.appendChild(element);
     element.click();
   }
@@ -63,10 +68,6 @@ export default function Info(props) {
       tgt_lang: toLanguage,
     });
   }
-  const textElement =
-    tab === "transcription"
-      ? output.map((val) => val.text)
-      : translation || "No translation";
 
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 justify-center text-center text-center pb-20 max-w-prose w-full mx-auto'>
@@ -121,12 +122,14 @@ export default function Info(props) {
       </div>
       <div className='flex items-center gap-4 mx-auto'>
         <button
+          onClick={handleCopy}
           title='Copy'
           className='bg-white text-blue-300 px-2 rounded aspect-square grid place-items-center hover:text-blue-500 duration-200'
         >
           <i className='fa-solid fa-copy'></i>
         </button>
         <button
+          onClick={handleDownload}
           title='Download'
           className='bg-white text-blue-300 px-2 rounded aspect-square grid place-items-center hover:text-blue-500 duration-200'
         >
