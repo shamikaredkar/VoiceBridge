@@ -10,7 +10,7 @@ export default function Translation(props) {
     generateTranslation,
   } = props;
   return (
-    <div className='flex flex-col gap- max-w-[400px] mx-auto w-full'>
+    <div className='flex flex-col gap-2 max-w-[400px] mx-auto w-full'>
       {!translating && (
         <div className='flex flex-col gap-1'>
           <p className='text-xs sm:text-sm font-medium text-slate-500 mr-auto'>
@@ -43,7 +43,7 @@ export default function Translation(props) {
       {textElement && !translating && <p>{textElement}</p>}
       {translating && (
         <div className='grid place-items-center'>
-          <i className='fa-solid fa-spinner animate-spinner'></i>
+          <i className='fa-solid fa-spinner fa-spin'></i>
         </div>
       )}
     </div>
