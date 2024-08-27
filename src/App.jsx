@@ -3,8 +3,8 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import React, { useState, useEffect } from "react";
-import Information from "./components/information";
 import Transcribing from "./components/Transcribing";
+import Info from "./components/Info.jsx";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -28,7 +28,7 @@ function App() {
         <section className='min-h-screen flex flex-col'>
           <Header />
           {output ? (
-            <Information />
+            <Info />
           ) : loading ? (
             <Transcribing />
           ) : isAudioAvailable ? (

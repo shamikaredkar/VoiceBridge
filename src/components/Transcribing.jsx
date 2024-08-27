@@ -16,9 +16,7 @@ export default function Transcribing({ downloading }) {
           return (
             <div
               key={val}
-              className={
-                "rounded-full h-2 sm:h-3 bg-slate-400 loading" + `loading${val}`
-              }
+              className={`rounded-full h-2 sm:h-3 bg-slate-400 loading loading${val}`}
             ></div>
           );
         })}
