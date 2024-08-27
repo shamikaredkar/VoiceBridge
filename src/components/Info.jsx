@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Transcription from "./Transcription";
 import Translation from "./Translation";
 
-export default function Info({ props }) {
+export default function Info(props) {
   const { output } = props;
   const [tab, setTab] = useState("transcription");
   return (
