@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Transcription from "./Transcription";
 import Translation from "./Translation";
 
-export default function Info() {
+export default function Info({ props }) {
+  const { output } = props;
   const [tab, setTab] = useState("transcription");
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 justify-center text-center text-center pb-20 max-w-prose w-full mx-auto'>
@@ -17,7 +18,7 @@ export default function Info() {
           className={
             "px-4 py-1 duration-200 font-medium " +
             (tab === "transcription"
-              ? "bg-blue-400 text-white"
+              ? "bg-blue-300 text-white"
               : "text-blue-400 hover:text-blue-600")
           }
         >
@@ -30,14 +31,18 @@ export default function Info() {
           className={
             "px-4 py-1 duration-200 font-medium " +
             (tab === "translation"
-              ? "bg-blue-400 text-white"
+              ? "bg-blue-300 text-white"
               : "text-blue-400 hover:text-blue-600")
           }
         >
           Translation
         </button>
       </div>
-      {tab === "transcription" ? <Transcription /> : <Translation />}
+      {tab === "transcription" ? (
+        <Transcription {...props} />
+      ) : (
+        <Translation {...props} />
+      )}
     </main>
   );
 }
