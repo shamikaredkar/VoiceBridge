@@ -10,7 +10,11 @@ export default function Info(props) {
   }
   function handleDownload() {
     const element = document.createElement("a");
-    const file = new Blob([]);
+    const file = new Blob([], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download(`VoiceBridge_${new Date().toDateString()}.txt`);
+    document.body.appendChild(element);
+    element.click();
   }
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 justify-center text-center text-center pb-20 max-w-prose w-full mx-auto'>
