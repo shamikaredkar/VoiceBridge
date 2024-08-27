@@ -5,6 +5,9 @@ import Translation from "./Translation";
 export default function Info(props) {
   const { output } = props;
   const [tab, setTab] = useState("transcription");
+  const [translation, setTranslation] = useState(null);
+  const [translating, setTranslating] = useState(null);
+  const [toLanguage, setToLanguage] = useState(null);
   function handleCopy() {
     navigator.clipboard.writeText();
   }
@@ -16,6 +19,10 @@ export default function Info(props) {
     document.body.appendChild(element);
     element.click();
   }
+
+  function generateTranslatiin() {}
+  const textElement = tab === 'transcription' ? output.map(val => val.text) : 
+
   return (
     <main className='flex-1 p-4 flex flex-col gap-3 sm:gap-4 justify-center text-center text-center pb-20 max-w-prose w-full mx-auto'>
       <h1 className='font-semibold text-4xl sm:text-5xl md:text-6xl whitespace-nowrap'>
@@ -51,7 +58,7 @@ export default function Info(props) {
       </div>
       <div className='my-8 flex flex-col'>
         {tab === "transcription" ? (
-          <Transcription {...props} />
+          <Transcription {...props} textElement={textElement} />
         ) : (
           <Translation {...props} />
         )}
