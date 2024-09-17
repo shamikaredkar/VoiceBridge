@@ -36,9 +36,7 @@ VoiceBridge is a powerful transcription and translation tool designed to transcr
 
 ## Project Directory
 ```sh
-VoiceBridge
-│── functions
-│   └── whisper.worker.js          # Worker for handling speech recognition and transcription
+VoiceBridge  
 │── public
 │   ├── assets
 │   │   └── wave.svg               # Visual assets for the UI
@@ -56,6 +54,7 @@ VoiceBridge
 ├── utils
 │   ├── presets.js                 # Constants for message types, loading statuses, and model names
 │   └── translate.worker.js        # Worker handling translation requests
+    └── whisper.worker.js          # Worker for handling speech recognition and transcription
 ├── .env                           # Environment variables for secure API access
 ├── .gitignore                     # Git ignore file
 ├── netlify.toml                   # Netlify configuration for deployment
